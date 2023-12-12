@@ -25,6 +25,12 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        if n == 8:
+            return 1
+        else:
+            return 0
+    return num_eights(n // 10) + num_eights(n % 10)
 
 
 def digit_distance(n):
@@ -47,6 +53,9 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    return abs(n // 10 % 10 - n % 10) + digit_distance(n // 10)
 
 
 def interleaved_sum(n, odd_term, even_term):
@@ -69,7 +78,12 @@ def interleaved_sum(n, odd_term, even_term):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def count(term0, term1, k):
+        if k == n:
+            return term0(k)
+        else:
+            return term0(k) + count(term1, term0, k + 1)
+    return count(odd_term, even_term, 1)
 
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
@@ -123,7 +137,16 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def coins(total, small_coin):
+        if total == 0:
+            return 1
+        if total < 0:
+            return 0
+        if small_coin == None:
+            return 0
+        #with this small_coin and without it
+        return coins(total, next_larger_coin(small_coin)) + coins(total - small_coin, small_coin)
+    return coins(total, 1)
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
