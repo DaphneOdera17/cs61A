@@ -13,7 +13,7 @@ def my_map(fn, seq):
     2023
     [None, None, None]
     """
-    return ______
+    return [fn(x) for x in seq]
 
 def my_filter(pred, seq):
     """Keeps elements in seq only if they satisfy pred.
@@ -31,7 +31,7 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return ______
+    return [x for x in seq if pred(x) == True]
 
 def my_reduce(combiner, seq):
     """Combines elements in seq using combiner.
@@ -46,6 +46,17 @@ def my_reduce(combiner, seq):
     11
     """
     "*** YOUR CODE HERE ***"
+    # 递归
+    # 把最后一项拎出来
+    def helper(seq):
+        if len(seq) == 1:
+            return seq[0]
+        elif len(seq) == 2:
+            return combiner(seq[0], seq[1])
+        else:
+            return combiner(helper(seq[0 : len(seq) - 1]), seq[-1])
+
+    return helper(seq)
 
 def my_map_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
@@ -90,7 +101,16 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    text = str(n)
 
+    def same_eight(str1):
+        if len(str1) <= 1:
+            return False
+        elif str1[-1] == '8' and str1[-2] == '8':
+            return True
+        else:
+            return same_eight(str1[0: len(str1) - 1])
+    return same_eight(text)
 
 def merge(lst1, lst2):
     """Merges two sorted lists.
@@ -117,6 +137,23 @@ def merge(lst1, lst2):
     True
     """
     "*** YOUR CODE HERE ***"
+    seq3 = []
+    def sorted(seq1, seq2):
+        if len(seq1) < 1 and len(seq2) < 1:
+            return seq3
+        if len(seq1) < 1:
+            seq3.append(seq2[0])
+            return sorted(seq1, seq2[1:])
+        elif len(seq2) < 1:
+            seq3.append(seq1[0])
+            return sorted(seq1[1:], seq2)
+        elif seq1[0] < seq2[0]:
+            seq3.append(seq1[0])
+            return sorted(seq1[1:], seq2)
+        else:
+            seq3.append(seq2[0])
+            return sorted(seq1, seq2[1:])
+    return sorted(lst1, lst2)
 
 
 def summation(n, term):
@@ -138,7 +175,13 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
-
+    ans = 0
+    if n == 1:
+        ans += term(n)
+    if n >= 2:
+        ans += term(n)
+        return ans + summation(n - 1, term)
+    return ans
 
 def count_palindromes(L):
     """The number of palindromic words in the sequence of strings
@@ -147,5 +190,6 @@ def count_palindromes(L):
     >>> count_palindromes(("Acme", "Madam", "Pivot", "Pip"))
     2
     """
-    return ______
-
+    helper = lambda L: len(list(filter(lambda word: word.lower() == word.lower()[::-1], L)))
+    result = helper(L)
+    return result
