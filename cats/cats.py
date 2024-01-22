@@ -31,6 +31,12 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    # 过滤掉长度不满足 select 的
+    ps = list(filter(select, paragraphs))
+    if k >= len(ps):
+        return ''
+    else:
+        return ps[k]
     # END PROBLEM 1
 
 
