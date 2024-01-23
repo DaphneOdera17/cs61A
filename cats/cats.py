@@ -56,6 +56,15 @@ def about(subject):
     assert all([lower(x) == x for x in subject]), 'subjects should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    def check(paragraph):
+        # 将给定段落的文本进行小写转换，并且移除所有单词中的标点符号，并且形成一个列表
+        words = [remove_punctuation(x) for x in split(lower(paragraph))]
+        for paragraph_word in words:
+            for subject_word in subject:
+                if paragraph_word == subject_word:
+                    return True
+        return False
+    return check
     # END PROBLEM 2
 
 
